@@ -33,4 +33,10 @@ And here click "copy" to get the code snippet to read the file
 ![Image](./pictures/upload_data_3.png)
 
 Paste copied code into the console
+![Image](./pictures/paste_code.png)
 
+Before we run it let's look at the line of code and learn what it actually does
+
+```scala
+val df1 = spark.read.format("csv").load("dbfs:/FileStore/shared_uploads/besselfunction@mail.ru/input_data.csv")
+```
