@@ -40,9 +40,11 @@ Before we run it let's look at the line of code and learn what it actually does
 ```scala
 val df1 = spark.read.format("csv").load("dbfs:/FileStore/shared_uploads/besselfunction@mail.ru/input_data.csv")
 ```
-spark - is Spark Session
-.read - reads the data
-.format - you provide info about the format of the data you are reading (csv, parquet)
-.load parameter has to contain full path to the data
+`
+- spark - is Spark Session
+- read - reads the data
+- format - you provide info about the format of the data you are reading (csv, parquet)
+- load parameter has to contain full path to the data
+`
 
 
