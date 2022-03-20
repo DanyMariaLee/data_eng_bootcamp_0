@@ -25,3 +25,12 @@ Now let's ingest data!
 Left tab -> Workspaces -> choose your workspace
 Click file -> Upload data
 ![Image](./pictures/upload_data.png)
+
+then drag and drop our input_data.csv
+![Image](./pictures/upload_data_2.png)
+
+And here click "copy" to get the code snippet to read the file
+![Image](./pictures/upload_data_3.png)
+
+Paste copied code into the console
+
