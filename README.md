@@ -75,4 +75,4 @@ df1.show
 ```
 
 Let's execute it and see
-[Image](./pictures/df2_show.png)
+[Image](./pictures/df1_show_2.png)
