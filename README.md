@@ -86,3 +86,11 @@ df1.count
 Before executing the code please comment out the df1.show line, we don't need it right now.
 
 [Image](./pictures/df1_count.png)
+
+Now we can see there are transactions from different cities, can we find out in how many different cities we have our stores?
+
+```scala
+df1.select("City").distinct.show
+```
+
+[Image](./pictures/city_count.png)
