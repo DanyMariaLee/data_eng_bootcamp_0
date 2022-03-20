@@ -44,5 +44,13 @@ val df1 = spark.read.format("csv").load("dbfs:/FileStore/shared_uploads/besselfu
 - read - reads the data
 - format - you provide info about the format of the data you are reading (csv, parquet)
 - load parameter has to contain full path to the data
+- df1 is a DataFrame
 
+A Spark DataFrame is an integrated data structure with an easy-to-use API for simplifying distributed big data processing. 
 
+Now we going to look at the data. Call functions `show` on your dataframe
+
+```scala
+df1.show
+```
+![Image](./pictures/df1_show.png)
