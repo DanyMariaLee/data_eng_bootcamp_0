@@ -76,3 +76,11 @@ df1.show
 
 Let's execute it and see
 [Image](./pictures/df1_show_2.png)
+
+Now we can find out how many row of data do we have
+```scala
+df1.count
+```
+
+Before executing the code please comment out the df1.show line, we don't need it right now.
+[Image](./pictures/df1_count.png)
