@@ -20,3 +20,8 @@ https://raw.githubusercontent.com/DanyMariaLee/data/main/supermarket_sales%20-%2
 Right click on window "save as..." and save it as input_data.csv on your computer. We will use it in a minute.
 ![Image](./pictures/save_as.png)
 
+Now let's ingest data!
+
+Left tab -> Workspaces -> choose your workspace
+Click file -> Upload data
+![Image](./pictures/upload_data.png)
