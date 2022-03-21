@@ -175,3 +175,48 @@ result will be the same
 +-----------+------+
 only showing top 20 rows
 ```
+
+Can you find customer who spend more than anyone else? 
+
+This can be done in two steps:
+
+1) we will use function from previous step to create new aggregated dataset
+2) looking at the output of previous calculation we can see that the result of the sum function has name sum(t) or sum(Total) depending on which way you decided to go - we should rename that column for readability and future use
+3) we can use order function to answer our question, for us to have the maximum value on the top of the pile we need to use descending ordering
+```scala
+// this is adding all the function from the package functions including desc
+// if you want to only import the ones you use right now type import org.apache.spark.sql.functions.{col, desc}
+import org.apache.spark.sql.functions._ 
+
+df1.withColumn("t", col("Total").cast("integer")).drop("Total").withColumnRenamed("t", "Total").groupBy("CustomerID")
+.sum("Total").withColumnRenamed("sum(Total)", "sum_total").orderBy(desc("sum_total")).show
+```
+
+Can we find the average spend per transaction for this spender?
+
+```scala
+// lets select the CustomerID for this spender
+val maxSpenderId = df1.withColumn("t", col("Total").cast("integer"))
+.drop("Total")
+.withColumnRenamed("t", "Total")
+.groupBy("CustomerID")
+.sum("Total")
+.withColumnRenamed("sum(Total)", "sum_total")
+.orderBy(desc("sum_total"))
+.select("CustomerID")
+.as[String]
+.collect
+.head 
+// using .head in the end is not the best way to do it, if you do not have a result value this function will fail.
+// as an exercise - find a better way to do it
+
+res5: String = 750-67-8428
+
+```
+
+Now we can select a sub set of data related only to this customer
+```scala
+
+
+
+```
