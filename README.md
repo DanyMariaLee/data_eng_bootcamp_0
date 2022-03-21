@@ -192,7 +192,7 @@ df1.withColumn("t", col("Total").cast("integer")).drop("Total").withColumnRename
 .sum("Total").withColumnRenamed("sum(Total)", "sum_total").orderBy(desc("sum_total")).show
 ```
 
-Can we find the average spend per transaction for this spender?
+Can we find what are the least popular Product line for this spender?
 
 ```scala
 // lets select the CustomerID for this spender
@@ -214,9 +214,52 @@ res5: String = 750-67-8428
 
 ```
 
-Now we can select a sub set of data related only to this customer
+Now we can select a set of data related only to this customer
 ```scala
+df1
+.filter(df1("CustomerID") === “750-67-8428”)
+.withColumn("t", col("Total").cast("integer"))
+.drop("Total")
+.withColumnRenamed("t", "Total")
+.groupBy("Product line")
+.sum("Total")
+.withColumnRenamed("sum(Total)", "sum_total")
+.orderBy(desc("sum_total"))
+.select("Product line", "sum_total")
+.show
 
-
-
++——————————+---------+---------+ 
+|        Product line|sum_total|
++--------------------+---------+
+|  Home and lifestyle|     2140|
+|  Food and beverages|     1570|
+|   Health and beauty|     1077|
+|Electronic access...|      657|
+|   Sports and travel|      432|
+| Fashion accessories|      193|
++--------------------+---------+
 ```
+
+Useful hint: before reading the solution try to put together the code yourself
+
+Can you find customer who spends more than anyone else between 2 and 5 PM? 
+
+```scala
+// first we need to filter the data where Time column is between 2 and 5 PM
+// lets add column that will contain only the hour of transaction
+import org.apache.spark.sql.functions._ 
+
+
+df1
+.select(col("*"), substring(col("Time"), 1, 2).as("hour").cast("integer"))
+.filter(col("hour") >= 14 && col("hour") <= 17)
+.withColumn("t", col("Total").cast("integer"))
+.drop("Total")
+.withColumnRenamed("t", "Total")
+.groupBy("CustomerID")
+.sum("Total")
+.withColumnRenamed("sum(Total)", "sum_total")
+.orderBy(desc("sum_total"))
+.show
+```
+
