@@ -349,6 +349,58 @@ root
 and finally
 ```scala
 df2.filter(col("person_id") === "132-32-9879").select("state").show
+```
 
+Filter customers that payed more than 1000$ with cash in total spendings?
+```scala
 
+df1.filter(col("Payment") === "Cash")
+.withColumn("t", col("Total").cast("integer"))
+.drop("Total")
+.withColumnRenamed("t", "Total")
+.groupBy("CustomerID")
+.sum("Total")
+.withColumnRenamed("sum(Total)", "sum_total")
+.filter(col("sum_total") >= 1000)
+.join(df2, df1("CustomerID") === df2("person_id"))
+.drop("CustomerID")
+.show
+
++---------+-----------+--------+-----+------+---+
+|sum_total|  person_id|postcode|state|gender|age|
++---------+-----------+--------+-----+------+---+
+|     1293|756-01-7507|     822|   NT|     F| 52|
+|     1590|829-34-3910|    2000|  NSW|     F| 42|
+|     1365|299-46-1805|    2000|  NSW|     F| 19|
+|     1165|853-23-2453|    2000|   WA|     M| 32|
+|     2801|232-11-3025|    2000|  NSW|     M| 22|
+|     2456|120-06-4233|     822|   NT|     F| 42|
+|     1301|382-03-4532|    2000|  NSW|     M| 22|
+|     1610|252-56-2699|    2000|  NSW|     F| 42|
+|     2582|354-25-5821|    2000|  NSW|     F| 42|
+|     1885|692-92-5582|    2000|  NSW|     M| 22|
+|     1752|732-94-0499|    2000|  NSW|     F| 22|
+|     1612|228-96-1411|    2000|  NSW|     F| 42|
+|     1579|640-49-2076|    2000|  NSW|     M| 32|
+|     2678|365-64-0515|    2000|  NSW|     F| 42|
+|     1473|280-35-5823|    2000|  NSW|     M| 22|
+|     1094|329-62-1586|     822|   NT|     F| 22|
+|     1051|574-22-5561|     822|   NT|     F| 52|
+|     1031|847-38-7188|     822|   NT|     M| 52|
+|     1901|699-14-3026|    2000|   WA|     M| 32|
+|     1614|777-82-7220|    2000|  NSW|     M| 22|
++---------+-----------+--------+-----+------+---+
+only showing top 20 rows
+
+```
+
+Filter customers who are from NSW, spend less than 500$ with Credit card and are in the age box [25-35]
+
+answer is single person
+```
++---------+-----------+--------+-----+------+---+
+|sum_total|  person_id|postcode|state|gender|age|
++---------+-----------+--------+-----+------+---+
+|      287|873-51-0671|    2000|  NSW|     M| 32|
++---------+-----------+--------+-----+------+---+
 ```
