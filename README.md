@@ -87,18 +87,21 @@ Before executing the code please comment out the df1.show line, we don't need it
 
 [this screenshot is too wide and will open in new window](./pictures/df1_count.png)
 
-Now we can see there are transactions from different cities, can we find out in how many different cities we have our stores?
+Now we can see there are transactions from different Product lines, can we find out in how many f them we have in our stores?
 
 ```scala
-df1.select("City").distinct.show
+df1.select("Product line").distinct.show
 
-+---------+
-|     City|
-+---------+
-| Brisbane|
-|   Sydney|
-|Melbourne|
-+---------+
++--------------------+
+|        Product line|
++--------------------+
+|  Home and lifestyle|
+| Fashion accessories|
+|   Health and beauty|
+|Electronic access...|
+|  Food and beverages|
+|   Sports and travel|
++--------------------+
 ```
 
 To have a clear idea of what columns we have we can call function df1.printSchema
@@ -285,5 +288,67 @@ df1
 Now let's import another data file from here https://github.com/DanyMariaLee/data/blob/main/reference_data.csv using the beginning of this tutorial.
 Save it as reference_data.csv
 
+Let's read this data
+
+```scala
+val df2 = spark.read.format("csv").option("header", "true").load("dbfs:/FileStore/shared_uploads/besselfunction@mail.ru/reference_data.csv")
+df2.show
+
++-----------+--------+-----+------+---+
+|  person_id|postcode|state|gender|age|
++-----------+--------+-----+------+---+
+|750-67-8428|    2000|  NSW|     F| 19|
+|226-31-3081|    2000|  NSW|     F| 22|
+|631-41-3108|    2000|  NSW|     M| 32|
+|123-19-1176|    2000|   WA|     M| 32|
+|373-73-7910|    2000|   WA|     M| 32|
+|699-14-3026|    2000|   WA|     M| 32|
+|355-53-5943|    2000|   WA|     M| 32|
+|315-22-5665|    2000|  NSW|     M| 32|
+|665-32-9167|    2000|  NSW|     M| 22|
+|692-92-5582|    2000|  NSW|     M| 22|
+|351-62-0822|    2000|  NSW|     M| 22|
+
+```
+In what state leaves a person who spends the least between 1 and 2PM?
+```scala
+// first we need to reuse previous function to filter data between 1 and 2 PM
+import org.apache.spark.sql.functions._ 
+
+df1
+.select(col("*"), substring(col("Time"), 1, 2).as(“hour”).cast(“integer"))
+.filter(col(“hour”) >= 13 && col(“hour”) <= 14)
+.withColumn("t", col(“Total").cast("integer"))
+.drop(“Total")
+.withColumnRenamed("t", “Total")
+.groupBy("CustomerID")
+.sum(“Total")
+.withColumnRenamed("sum(Total)", “sum_total”)
+.orderBy(“sum_total")
+.select("CustomerId")
+.as[String]
+.collect
+.head
+
+minSpender: String = 132-32-9879
+
+```
+
+Now we can fin that customer in reference dataset and select the state column
+```scala
+// check out the schema first
+df2.printSchema
+
+root
+ |-- person_id: string (nullable = true)
+ |-- postcode: string (nullable = true)
+ |-- state: string (nullable = true)
+ |-- gender: string (nullable = true)
+ |-- age: string (nullable = true)
+```
+and finally
+```scala
+df2.filter(col("person_id") === "132-32-9879").select("state").show
 
 
+```
