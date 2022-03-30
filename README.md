@@ -13,7 +13,7 @@ On the left hand side at the tab bar: `Create -> Notebook -> enter name, choose 
 Download the data for your warehouse
 
 open this link in your browser
-https://github.com/DanyMariaLee/data/blob/main/input_data.csv
+https://github.com/DanyMariaLee/data_eng_bootcamp_0/blob/main/data/input_data.csv
 
 (This is raw CSV data of sales stats that we will be using in this class)
 
@@ -285,7 +285,7 @@ df1
 
 ```
 
-Now let's import another data file from here https://github.com/DanyMariaLee/data/blob/main/reference_data.csv using the beginning of this tutorial.
+Now let's import another data file from here https://github.com/DanyMariaLee/data_eng_bootcamp_0/blob/main/data/reference_data.csv using the beginning of this tutorial.
 Save it as reference_data.csv
 
 Let's read this data
