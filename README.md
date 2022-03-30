@@ -1,7 +1,7 @@
 # Congratulations, you are a junior Data Engineer at Superstore!
 
 We begin from creating cluster using Azure Databricks
-On the left hand side at the tab bar: `Create -> Cluster -> enter name, change "Terminate after" to 30 min -> Change Max Workers onto 4 -> choose tech spec of cluster as per screenshot -> click Create Cluster`
+On the left hand side at the tab bar: `Create -> Cluster -> enter name -> choose tech spec of cluster as per screenshot -> click Create Cluster`
 
 ![Image](./pictures/create_cluster.png)
 
